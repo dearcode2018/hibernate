@@ -1,0 +1,25 @@
+
+HQL 设计为面向对象的查询语言，概念同继承、多态、关联
+
+hql语句关键字统一使用小写书写，
+
+
+join / left join / right join / full join
+加载 关联对象、集合: join fetch / left join fetch 
+fetch 连接通常不需要指定别名，因为关联对象不应当被用在where字句中，同样，
+关联对象并不在查询结果中直接返回，而是通过其父类对象来访问。
+fetch all properties 强制hibernate立即获取那些原本需要延迟加载的属性，
+
+
+
+
+
+
+
+
+
+
+
+
+
+

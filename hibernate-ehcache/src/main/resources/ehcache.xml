@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" name="hibernateCache">
+	<!-- <diskStore path="java.io.tmpdir/ehcache/hibernate" /> -->
+	<diskStore path="C:/ehcache/hibernate" />
+	<defaultCache maxElementsInMemory="1000" eternal="false"
+		timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false">
+	</defaultCache>
+	<cache name="org.hibernate.cache.internal.StandardQueryCache"
+		maxElementsInMemory="5" eternal="false" timeToLiveSeconds="120">
+	</cache>
+	<cache name="org.hibernate.cache.spi.UpdateTimestampsCache"
+		maxElementsInMemory="5000" eternal="true">
+	</cache>
+	
+	<!-- <cache name="com.openeap.modules.sys.entity.Dict" maxEntriesLocalHeap="10000" 
+	eternal="false" overflowToDisk="true" maxEntriesLocalDisk="1000" />
+	 -->
+	<cache name="com.hua.orm.entity.m2o.Custom" maxElementsInMemory="500" timeToLiveSeconds="1000"></cache>
+	
+</ehcache>

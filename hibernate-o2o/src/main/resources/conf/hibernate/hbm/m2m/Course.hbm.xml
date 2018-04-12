@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+   
+<hibernate-mapping>
+	<class name="com.hua.orm.entity.m2m.Course" table="course">
+		<id name="oid" type="java.lang.Long">
+			<column name="oid" >
+				<comment>唯一标识符</comment>
+			</column>
+			<!-- 主键 - 生成规则 -->
+			<generator class="sequence">
+				<!-- 序列名称 -->
+				<param name="sequence"></param>
+			</generator>			
+		</id>	
+		<property name="name" type="java.lang.String" >
+			<column name="name" length="64" not-null="false">
+				<comment>课程名称</comment>
+			</column>
+		</property>
+		<property name="credit" type="java.lang.Double" >
+			<column name="credit" not-null="false">
+				<comment>该课程的学分</comment>
+			</column>
+		</property>		
+		<property name="description" type="java.lang.String" >
+			<column name="description" length="128" not-null="false">
+				<comment>课程描述</comment>
+			</column>
+		</property>	
+		<set name="students" table="student">
+			<!-- 必填元素 -->
+			<key column="studentId" />		
+			<many-to-many class="com.hua.orm.entity.m2m.Student">
+			</many-to-many>
+		</set>		
+	</class>
+	
+
+
+
+
+
+
+
+
+
+
+
+</hibernate-mapping>

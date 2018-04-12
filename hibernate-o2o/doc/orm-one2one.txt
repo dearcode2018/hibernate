@@ -1,0 +1,24 @@
+一对一关联 (One to One)
+1) 关联方式: 主键关联、外键关联
+
+2) 主键关联
+Person表的主键 充当  IdCard表的主键，根据Id查询出Person表之后，即可关联查询出
+IdCard记录
+
+3) 外键关联
+IdCard有一个字段personId作为外键映射到Person表.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

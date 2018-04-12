@@ -1,0 +1,57 @@
+
+1) 主键
+自然主键: 具有业务含义的字段，不能满足不断变化的业务需求.
+
+代理主键: 不具备业务含义，通常使用整型.
+例如: 
+mysql: auto_increment
+sqlserver: identity(1, 1)
+oracle: sequence
+
+2) 主键生成器
+hibernate提供了8种标识符生成方式，7种标识符生成器和一种复合主键生成方式.
+
+2.1 increment
+适用于单线程环境，多线程下可能出新重复的主键。不依赖于底层数据库，由Hibernate生成
+id类型必须是 short / int / long 类型
+在录入数据之前，hibernate回去扫描该表的主键，取出最大值 然后+1，中间出现断
+数 无法补齐.
+
+2.2 identity (auto_increment)
+依赖底层数据库，mysql/sqlserver支持自动增长, id类型必须是 short / int / long 类型
+
+2.3 sequence
+需要支持序列的数据库，例如 oracle
+
+2.4 hilo
+hilo标识符生成器由hibernate按照一种high/low算法生成标识符，从数据库特定的表
+中获取high值。不依赖于数据库，但id类型必须是 short / int / long 类型
+
+2.5 native
+native生成器能根据底层数据库的类型，自动选择合适的标识生成器，因此非常适用于
+跨数据库平台的开发，会采用identity/hilo/sequence的其中一种，
+但id类型必须是 short / int / long 类型
+
+2.6 uuid.sex
+由Hibernate基于128位唯一产生算法，根据设备IP/时间/JVM启动时间、内部自增量等
+4个参数生成16进制数值作为主键；利用uuid.sex方式生成的主键提供最好的数据插入
+性能和数据库平台适应性. uui生成 32位:8a909eef4c9e6b5c014c9e6b60780000
+
+2.7 assign
+assign生成策略表示由应用程序逻辑负责生成主键标识.
+
+2.8 映射复合主键
+2.8.1 方式1: 由实体类中的属性组成，实体类本身即同时扮演复合主键类的角色.
+
+
+2.8.2 方式2: 以独立主键类映射复合主键
+
+
+
+
+
+
+
+
+
+

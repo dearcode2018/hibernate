@@ -1,0 +1,22 @@
+
+
+1) 连接数据库 信息
+HHH000402: Using Hibernate built-in connection pool (not for production use!)
+INFO  2014-06-21 16:18:59.500   [main] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl.buildCreator(DriverManagerConnectionProviderImpl.java:166)   HHH000401: using driver [oracle.jdbc.driver.OracleDriver] at URL [jdbc:oracle:thin:@127.0.0.1:1521:orcl]
+INFO  2014-06-21 16:18:59.500   [main] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl.buildCreator(DriverManagerConnectionProviderImpl.java:175)   HHH000046: Connection properties: {user=scott, password=****, characterEncoding=UTF-8, pool.size=20}
+INFO  2014-06-21 16:18:59.500   [main] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl.buildCreator(DriverManagerConnectionProviderImpl.java:180)   HHH000006: Autocommit mode: false
+INFO  2014-06-21 16:18:59.500   [main] org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl.configure(DriverManagerConnectionProviderImpl.java:102)   HHH000115: Hibernate connection pool size: 20 (min=1)
+
+2) oralce 方言
+HHH000063: The Oracle9Dialect dialect has been deprecated; use either Oracle9iDialect or Oracle10gDialect instead
+org.hibernate.dialect.OracleDialect.<init>(OracleDialect.java:55)   HHH000064: The OracleDialect dialect has been deprecated; use Oracle8iDialect instead
+
+
+
+
+
+
+
+
+
+

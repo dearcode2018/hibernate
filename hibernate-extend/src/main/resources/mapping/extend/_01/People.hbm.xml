@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 虚拟表 -->
+	<class name="com.hua.entity.extend.People" table="people_1"
+		abstract="true">
+		<id name="id" type="java.lang.String">
+			<column name="id">
+				<comment>唯一标识符</comment>
+			</column>
+			<!-- 必须使用主动分配的方式 -->
+			<generator class="assigned" />
+		</id>
+		<property name="name" type="java.lang.String">
+			<column name="name" length="64" not-null="false">
+				<!-- 列注释 -->
+				<comment>姓名</comment>
+			</column>
+		</property>
+
+		<property name="sex" type="java.lang.String">
+			<column name="sex" length="10" not-null="false">
+				<!-- 列注释 -->
+				<comment>姓名</comment>
+			</column>
+		</property>
+
+		<property name="age" type="java.lang.Integer">
+			<column name="age" not-null="false">
+				<!-- 列注释 -->
+				<comment>姓名</comment>
+			</column>
+		</property>
+
+		<!-- Worker 具体类 -->
+		<union-subclass name="com.hua.entity.extend.Worker"
+			table="worker_1">
+			<property name="wNo" type="java.lang.String">
+				<column name="wNo" not-null="false">
+					<!-- 列注释 -->
+					<comment>工人编号</comment>
+				</column>
+			</property>
+			<property name="salary" type="java.lang.Double">
+				<column name="salary" not-null="false">
+					<!-- 列注释 -->
+					<comment>薪资</comment>
+				</column>
+			</property>
+		</union-subclass>
+
+		<!-- Teacher 具体类 -->
+		<union-subclass name="com.hua.entity.extend.Teacher"
+			table="teacher_1">
+			<property name="tNo" type="java.lang.String">
+				<column name="tNo" not-null="false">
+					<!-- 列注释 -->
+					<comment>教师编号</comment>
+				</column>
+			</property>
+			<property name="school" type="java.lang.String">
+				<column name="school" not-null="false">
+					<!-- 列注释 -->
+					<comment>学校</comment>
+				</column>
+			</property>
+		</union-subclass>
+
+	</class>
+
+</hibernate-mapping>

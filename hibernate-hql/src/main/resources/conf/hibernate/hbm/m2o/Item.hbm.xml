@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- hibernate 无法找到相应的xsd文件，可以引用本地的 -->
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.hibernate.org/xsd/hibernate-mapping	file:///D:/Local/hibernate-mapping-4.0.xsd">
+
+
+	<class name="com.hua.hibernate.m2o.Item" table="item">
+		<id name="oid" type="java.lang.Long">
+			<column name="oid" >
+				<comment>唯一标识符</comment>
+			</column>
+			<!-- 主键 - 生成规则 -->
+		</id>	
+		<property name="name" type="java.lang.String" >
+			<column name="name" length="128" not-null="false">
+				<!-- 列注释 -->
+				<comment>定单名称</comment>
+			</column>
+		</property>
+		<property name="orderDate" type="java.util.Date">
+			<column name="orderDate" not-null="false">
+				<!-- 列注释 -->
+				<comment>下单日期 yyyy-MM-dd</comment>
+			</column>
+		</property>
+		<property name="monetary" type="java.lang.Double" >
+			<column name="monetary" not-null="false">
+				<!-- 列注释 -->
+				<comment>消费金额</comment>
+			</column>
+		</property>
+		<property name="remark" type="java.lang.String" >
+			<column name="remark" length="128" not-null="false">
+				<!-- 列注释 -->
+				<comment>备注</comment>
+			</column>
+		</property>
+		<many-to-one name="custom">
+			<column name=""></column>
+		</many-to-one>				
+	</class>
+	
+
+
+
+
+
+
+
+
+
+
+
+</hibernate-mapping>

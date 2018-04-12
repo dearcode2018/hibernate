@@ -1,0 +1,41 @@
+【项目信息】
+项目名称 : hibernate4
+中文名称 : 
+项目版本 : version 1.0
+
+主要技术 : 
+
+项目描述 : hibernate version 4.x
+
+项目备注 : hibernate base、core、annotation、xml config、mappinp、、、
+
+【项目规划】
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

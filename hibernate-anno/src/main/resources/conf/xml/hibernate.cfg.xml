@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">
+			com.mysql.jdbc.Driver
+		</property>
+
+		<property name="hibernate.connection.url">
+		<![CDATA[ 
+			jdbc:mysql://127.0.0.1:3306/hibernate?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+		 ]]>
+		</property>
+
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+		<property name="hibernate.connection.username">root</property>
+
+		<property name="hibernate.connection.password">root</property>
+
+		<property name="hibernate.connection.pool.size">20</property>
+
+		<property name="hibernate.show_sql">true</property>
+
+		<property name="jdbc.fetch_size">50</property>
+
+		<property name="jdbc.batch_size">23</property>
+
+		<property name="jdbc.use_scrollable_resultset">false</property>
+
+		<property name="Connection.useUnicode">true</property>
+
+		<property name="connection.characterEncoding">UTF-8</property>
+
+		<!-- 映射类 -->
+		<!-- one to one (3种方式) 方式1 和方式3 在注解下没有实验成功 -->
+ 		<mapping class="com.hua.entity.o2o._01.Person01" />
+		<mapping class="com.hua.entity.o2o._01.IdCard01" />
+
+ 		<mapping class="com.hua.entity.Person" />
+
+		<mapping class="com.hua.entity.o2o._02.Person02" />
+		<mapping class="com.hua.entity.o2o._02.IdCard02" />
+
+<!-- 		<mapping class="com.hua.entity.o2o._03.Person03" />
+		<mapping class="com.hua.entity.o2o._03.IdCard03" /> -->
+
+		<mapping class="com.hua.entity.m2o.Custom" /> 
+		<mapping class="com.hua.entity.m2o.Item" /> 
+		<mapping class="com.hua.entity.m2m.Course" />
+		<mapping class="com.hua.entity.m2m.Student" />
+
+	</session-factory>
+</hibernate-configuration>

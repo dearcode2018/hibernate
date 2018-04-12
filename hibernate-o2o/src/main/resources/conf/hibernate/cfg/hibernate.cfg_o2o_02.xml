@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">	
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">
+		oracle.jdbc.driver.OracleDriver
+		</property>
+
+		<property name="hibernate.connection.url">
+		jdbc:oracle:thin:@127.0.0.1:1521:orcl
+		</property>
+		
+		<property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
+
+		<property name="hibernate.connection.username">scott</property>
+
+		<property name="hibernate.connection.password">scott</property>
+
+		<property name="hibernate.connection.pool.size">20</property>
+
+		<property name="hibernate.show_sql">true</property>
+
+		<property name="jdbc.fetch_size">50</property>
+
+		<property name="jdbc.batch_size">23</property>
+
+		<property name="jdbc.use_scrollable_resultset">false</property>
+
+		<property name="Connection.useUnicode">true</property>
+
+		<property name="connection.characterEncoding">UTF-8</property>
+
+		<!-- 映射文件 -->
+		<!-- one to one -->
+		<mapping resource="conf/hibernate/hbm/o2o/_02/IdCard.hbm.xml" />
+		<mapping resource="conf/hibernate/hbm/o2o/_02/Person.hbm.xml" />
+		<!-- one to many -->
+
+		<!-- many to one -->
+		<!--<mapping resource="conf/hibernate/hbm/m2o/Custom.hbm.xml" />
+		<mapping resource="conf/hibernate/hbm/m2o/Item.hbm.xml" />-->
+		
+		<!-- many to many -->
+<!-- 		<mapping resource="conf/hibernate/hbm/m2m/Student.hbm.xml" />
+		<mapping resource="conf/hibernate/hbm/m2m/Course.hbm.xml" /> -->
+
+
+
+	</session-factory>
+</hibernate-configuration>

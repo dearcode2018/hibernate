@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="com.hua.orm.entity.m2o.Item" table="item">
+		<id name="oid" type="java.lang.Long">
+			<column name="oid" >
+				<comment>唯一标识符</comment>
+			</column>
+			<!-- 主键 - 生成规则 -->
+			<generator class="sequence">
+				<!-- 序列名称 -->
+				<param name="sequence">seq_item_oid</param>
+			</generator>			
+		</id>	
+		<property name="name" type="java.lang.String" >
+			<column name="name" length="64" not-null="false">
+				<!-- 列注释 -->
+				<comment>定单名称</comment>
+			</column>
+		</property>
+		<property name="orderTs" type="java.sql.Timestamp">
+			<column name="orderTs" not-null="false">
+				<!-- 列注释 -->
+				<comment>下单日期 yyyy-MM-dd HH:mm:ss</comment>
+			</column>
+		</property>
+		<property name="monetary" type="java.lang.Double" >
+			<column name="monetary" not-null="false">
+				<!-- 列注释 -->
+				<comment>消费金额</comment>
+			</column>
+		</property>
+		<property name="remark" type="java.lang.String" >
+			<column name="remark" length="64" not-null="false">
+				<!-- 列注释 -->
+				<comment>备注</comment>
+			</column>
+		</property>
+		 <!--
+		 设置inverse="true"表示Member不在作为主控方，
+		 就是说不再由Member来维持关联关系，  而有Order方来维持关联关系，
+		 这样Order在持久化的时候会主动去获取Member的主键值来作为自己  
+         的外键值。 在one-to-manay关联关系中，
+         一般将manay端设置为主控方（inverse="false"），  
+          这样将有助于改善性能。默认情况下inverse="false"
+           -->   
+		<many-to-one name="custom" class="com.hua.orm.entity.m2o.Custom">
+			<column name="CUSTOMID" />
+		</many-to-one>				
+	</class>
+	
+
+
+
+
+
+
+
+
+
+
+
+</hibernate-mapping>

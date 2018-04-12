@@ -1,0 +1,55 @@
+
+
+
+
+
+Java类型  、 Hibernate类型、SQL类型
+boolean / java.lang.Boolean boolean BIT
+boolean / java.lang.Boolean yes_no CHAR(1) 'Y' 或 'N'
+boolean / java.lang.Boolean true_false CHAR(1) 'T' 或 'F'
+char / java.lang.Character /java.lang.String
+byte / Byte byte TINYINT
+short / java.lang.Short short / SAMLLINT
+int / java.lang.Integer int/integer INTEGER
+float / java.lang.Float float FLOAT
+long / java.lang.Long long BIGINT
+double / java.lang.Double double DOUBLE
+java.lang.String / string VARCHAR
+
+
+java.util.Date / java.sql.Date date DATE
+java.util.Date / java.sql.Time time TIME
+java.util.Date/ java.sql.Timestamp timestamp TIMESTAMP
+java.util.Calendar calendar TIMESTAMP
+java.util.Calendar calendar_date DATE
+
+
+自定义类型: 实现 org.hibernate.usertype.UserType 接口
+
+
+2) 枚举类型
+hibernate 支持 字面值、下标方式，默认是使用下标，若配置了<param name="type">12</param>则存储字面值，
+若要存储枚举的其他形式的值，需要实现org.hibernate.usertype.UserType 接口。
+<!-- 枚举值配置 - 示例 -->
+<property name="gender" column="gender">
+	<type name="org.hibernate.type.EnumType">
+	 	<param name="enumClass">com.hua.constant.ext.Gender</param>
+		<!--
+		     12为java.sql.Types.VARCHAR常量值，即保存枚举的字面值到数据库。
+		     如果不指定type参数，保存枚举的索引值(从0开始)到数据库 -->	
+		     <!-- 枚举字面值 -->			
+		     <param name="type">12</param>
+	</type>
+</property>
+
+
+3) 组合类型
+org.hibernate.usertype.CompositeUserType 接口，不仅可以完成和UserType相同的功能，
+而且还提供了对HQL查询语言的支持，
+
+
+4) 大对象 LOB
+blob: Byte[] Blob
+在数据表中，Blob是二进制数据，无法直接识别，因此不能直接查看其内容.
+
+clob: String Clob

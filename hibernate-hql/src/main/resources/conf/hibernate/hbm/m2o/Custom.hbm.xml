@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- hibernate 无法找到相应的xsd文件，可以引用本地的 -->
+<hibernate-mapping xmlns="http://www.hibernate.org/xsd/hibernate-mapping"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.hibernate.org/xsd/hibernate-mapping	file:///D:/Local/hibernate-mapping-4.0.xsd">
+
+
+	<class name="com.hua.hibernate.m2o.Custom" table="custom">
+		<id name="oid" type="java.lang.Long">
+			<column name="oid" >
+				<comment>唯一标识符</comment>
+			</column>
+			<!-- 主键 - 生成规则 -->
+		</id>	
+		<property name="name" type="java.lang.String" >
+			<column name="name" length="128" not-null="false">
+				<!-- 列注释 -->
+				<comment>客户姓名</comment>
+			</column>
+		</property>	
+		<property name="balance" type="java.lang.String" >
+			<column name="balance" not-null="false">
+				<!-- 列注释 -->
+				<comment>帐户余额</comment>
+			</column>
+		</property>
+		<property name="address" type="java.lang.String" >
+			<column name="address" length="255" not-null="false">
+				<!-- 列注释 -->
+				<comment>住址</comment>
+			</column>
+		</property>
+		<!-- 枚举值配置 -->
+		<property name="status" type="com.hua.constant.CustomStatus" >
+			<type name="org.hibernate.type.EnumType">
+			 	<param name="enumClass">com.hua.constant.CustomStatus</param>
+				<!--
+				     12为java.sql.Types.VARCHAR常量值，即保存枚举的字面值到数据库。如果不指定type参数，保存枚举的索引值(从0开始)到数据库
+				     <param name="type">12</param>
+				  -->				
+			</type>
+			<column name="status" not-null="false">
+				<!-- 列注释 -->
+				<comment>客户状态 (0-无效, 1-未激活, 2-正常)</comment>
+			</column>
+		</property>	
+		<!-- 一对多 -->
+		<set name="items">
+			<key></key>
+		</set>					
+	</class>
+
+</hibernate-mapping>

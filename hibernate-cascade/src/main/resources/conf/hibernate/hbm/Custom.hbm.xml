@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<!-- lazy=true 开启实体延迟加载 -->
+	<class name="com.hua.orm.entity.m2o.Custom" table="custom" lazy="true">
+		<id name="oid" type="java.lang.Long">
+			<column name="oid" >
+				<comment>唯一标识符</comment>
+			</column>
+			<!-- 主键 - 生成规则 -->
+			<generator class="sequence">
+				<!-- 序列名称 -->
+				<param name="sequence">seq_custom_oid</param>
+			</generator>			
+		</id>	
+		<property name="name" type="java.lang.String" lazy="true">
+			<column name="name" length="64" not-null="false">
+				<!-- 列注释 -->
+				<comment>客户姓名</comment>
+			</column>
+		</property>	
+		<property name="balance" type="java.lang.Double" lazy="true">
+			<column name="balance" not-null="false">
+				<!-- 列注释 -->
+				<comment>帐户余额</comment>
+			</column>
+		</property>
+		<property name="address" type="java.lang.String" lazy="true">
+			<column name="address" length="255" not-null="false">
+				<!-- 列注释 -->
+				<comment>住址</comment>
+			</column>
+		</property>
+		<!-- 枚举值配置 -->
+		<property name="status" column="status" lazy="true">
+			<type name="org.hibernate.type.EnumType">
+			 	<param name="enumClass">com.hua.constant.ext.CustomStatus</param>
+				<!--
+				     12为java.sql.Types.VARCHAR常量值，即保存枚举的字面值到数据库。如果不指定type参数，保存枚举的索引值(从0开始)到数据库
+				     <param name="type">12</param>
+				  -->				
+			</type>
+		</property>	
+		 <!--
+		 设置inverse="true"表示Custom不在作为主控方，
+		 就是说不再由Custom来维持关联关系，  而有Item方来维持关联关系，
+		 这样Item在持久化的时候会主动去获取Custom的主键值来作为自己  
+         的外键值。 在one-to-manay关联关系中，
+         一般将many端设置为主控方（inverse="false"），  
+          这样将有助于改善性能。默认情况下inverse="false"
+           -->   		
+           <!-- fetch="join" 会影响延迟加载策略 -->
+		<set name="items" inverse="true" lazy="extra">
+			<!-- 多的一端的外键，与一的一端的主键关联 -->
+			<key column="CUSTOMID"></key>
+			<one-to-many class="com.hua.orm.entity.m2o.Item" />
+		</set>					
+	</class>
+
+</hibernate-mapping>

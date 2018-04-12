@@ -1,0 +1,29 @@
+
+
+org.hibernate.validator.constraints.Email
+验证字段: 
+说明: 被注释元素必须是电子邮箱
+
+org.hibernate.validator.constraints.Length
+验证字段: 
+说明: 注解的字符串的长度必须是指定的范围内
+
+org.hibernate.validator.constraints.NotEmpty
+验证字段: 
+说明: 字符串不能为空
+
+org.hibernate.validator.constraints.Range
+验证字段: 
+说明: 字段必须在指定的范围
+
+org.hibernate.validator.constraints.
+org.hibernate.validator.constraints.
+org.hibernate.validator.constraints.
+org.hibernate.validator.constraints.
+
+
+
+
+
+
+

@@ -1,0 +1,44 @@
+hibernate lazy (延迟加载)
+
+1) get 和 load
+get方法不支持延迟加载，load方法支持延迟加载.
+
+2) class 元素
+lazy=false | true (默认值)
+
+3) 集合延迟加载
+lazy=false | true (默认值) | extra
+extra: 效果和true基本一样，就是在增加了一些智能功能，在调用集合的
+size/contains等方法时，hibernate并不会去加载整个集合，而是发出一条
+聪明的sql语句，以便获得需要的值.
+list/set/
+4) property
+lazy=false | true (默认值)
+
+5) 关联对象
+ 单端 one-to-one many-to-one标签上可以设置懒加载策略
+lazy=false | proxy (默认值) | no-proxy
+proxy: 只有在调用到其关联对象的方法的时候才真正发出查询语句查询其对象数据，否则
+只是返回一个关联类的代理对象.
+
+提示: 在class元素上设置的lazy属性不会影响到关联对象
+
+=====================================================
+
+load 延迟加载
+1) load 调用之后，如果没有没有获取到实际的对象，则在session关闭之后，
+去调用对象的获取属性的方法 则会抛如下异常:
+org.hibernate.LazyInitializationException: could not initialize proxy - no Session
+注意：Hibernate支持Lazy策略，只有session打开状态才有效 
+
+
+
+
+
+
+
+
+
+
+
+

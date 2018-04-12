@@ -1,0 +1,309 @@
+Hibernate
+基础部分
+///
+基础要点
+1）属性文件：hibernate.properties
+配置文件：hibernate.cfg.xml
+映射文件：Xx.hbm.xml
+2）Hibernate通过属性/配置/映射文件，把Java对象或PO(Persistent Object持久化对象)映射到数据库中的表；然后通过操作PO，对表进行增删改查。除了属性/配置/映射文件和持久化类外，Hibernate还包括一系列核心组件。
+3）核心组件：
+①Configuration类：读取属性/配置文件，并产生SessionFactory对象。
+②SessionFactory接口：产生Session实例工厂。
+③Session接口：操作PO，是Hibernate的核心接口，通过get() load() save() saveOrUpdate() update() delete()来对PO进行[增删改查]操作。
+④Query接口：查询PO，通过Session对象的createQuery()方法生成。
+⑤Transaction接口：管理Hibernate事务，主要方法：commit() rollback();可以从Session对象的beginTransaction()方法生成。
+4）ORM：Object Relational Mapping
+对象关系映射：面向对象与关系型数据库  映射
+5）
+///
+核心组件
+1)org.hibernate.cfg.Configuration
+SessionFactory buildSessionFactory()
+2)org.hiberante.SessionFactory
+openSession()：每次都是新的
+getCurrentSession()：从上下文中找，如果有，用旧的；如果没没有，建新的。
+3)org.hibernate.Session
+CDUR：create delete Update  read
+get() load() save() update() saveOrUpdate() delete()
+createQuery()
+beginTransaction()
+get()与load()区别：
+不存在对应记录时表现不一样。
+load()：返回的是代理对象，等到正真用到对象的内容时才发出sql语句；如果缓存中没有则返回假代理对象，缓存中有则返回真代理对象。如果不用此对象，就结束；如果要用，就到Db中去找，Db中有则返回真的，没有则抛异常（对象未找到异常）。
+get()：直接从数据库加载，不会延迟。如果缓存有则返回，如果没有就到Db中找，Db中没有则返回null。
+update()：更新detach（脱管）对象，更新完成后转为persisent（持久化）状态。更新persisent对象会报错。可以更新自己设定id的transient（数据库有对应的记录）。
+persient对象只要设定不同字段就会发生更新。
+flush()：强制从内存（session缓存）到Db的同步。提交/查询之前隐含执行flush()。
+4)org.hibernate.Query
+5)org.hibernate.Transaction
+commit() rollback()
+6)
+///
+主键介绍
+1）assigned/hilo/increment/identity/sequence/native/uuid/foreign/guid
+uuid：universal unique identifier
+guid：global unique identifier
+2）主键分类：自然主键、代理主键
+3）自然主键：业务主键；键值有业务意义，但是业务发生更改的时候，修改起来不方便，因此很少使用业务主键的方式作表的主键。
+4）代理主键：非业务主键，键值与业务没有任何关系，只是为了唯一标识一条记录在一张表/Db中。
+5）
+///
+id生成
+/* 序列方式 */
+@javax.persistence.GeneratedValue(strategy = GenerationType.SEQUENCE, generator="id生成器名称")
+@javax.persistence.SequenceGenerator(name="序列生成器名称", sequenceName="数据库序列名称", allocationSize=1)
+/* uuid方式 */
+@javax.persistence.GeneratedValue(generator="id生成器名称")
+@org.hibernate.annotations.GenericGenerator(name="通用生成器名称", strategy="uuid")
+///
+JavaBean在Hibernate中3种状态
+1）瞬时状态（transient）
+JavaBean对象在内存中孤立存在，不与数据库中的数据有任何关联，此时的JavaBean对象称为瞬时对象。
+persist()：把一个瞬时对象持久化，但并不保证标识符被立刻填入到持久化实例中，标识符的填入可能被推迟到flush的时间。
+merge()：如果id为空或不存在，则进行insert动作；如果id存在，则进行update动作。
+2）持久化状态（persistent）
+一个JavaBean对象与一个Session相关联时，就成为持久化对象。
+3）脱管状态（detach）
+Sessin在关闭的同时，JavaBean对象也会脱离持久化状态，变成脱管状态；此时的JavaBean对象可以被任何层自由使用。 
+clear()：清除缓存中的所有对象，但不包括正在操作的对象。
+///
+Hibernate的运行过程
+1）应用程序先调用Configration类对象，该类对象读取Hibernate的配置文件及映射文件中的信息，并用这些信息生成一个SessionFactpry对象。
+2）然后从SessionFactory对象生成一个Session对象，并用Session对象生成Transaction对象;
+3）可通过Session对象的get(),load(),save(),update(),delete()和saveOrUpdate()等方法对PO进行[增删改查]等操作;
+4）在查询的情况下，可通过Session对象生成一个Query对象，然后利用Query对象执行查询操作;如果没有异常，Transaction对象将 提交这些操作结果到数据库中。
+///
+缓存
+1）缓存：一级缓存、二级缓存
+2）一级缓存：Session级别的缓存，属于事务范围的缓存，由Hibernate管理，一般情况下无需干预。
+3）二级缓存：SessionFactory级别的缓存，属于进程或集群范围的缓存；可以进行配置和更改，并且可以动态加载和卸载。
+4）Hibernate为查询结果提供了一个查询缓存，它依赖于二级缓存。
+5）	一级缓存_物理介质：内存
+二级缓存_物理介质：内存/硬盘
+由于内存有限，必须通过适当的的检索策略和检索方式来限制加载对象的数目。
+6）二级缓存可以存放大量的数据，数据过期策略的maxElementsInMemory属性值可以控制内存中的对象数目。
+7）二级缓存管理：
+①选择需要使用二级缓存的持久类，设置合适的并发访问策略。
+②选择缓存适配器，设置合适的数据过期策略。
+8）
+9）
+///
+一级缓存管理
+1）
+二级缓存管理
+1）
+2）
+打开二级缓存（hibernate.cfg.xml）：
+<property name=”cache.use_second_level_cache”>true</property>
+配置_二级缓存_适配器
+<property name=”cache.provider_class”>org.hibernate.cache.EhCacheProvider</property>
+打开查询缓存：
+<property name=”cache.use_query_cache”>true</property>
+或者调用org.hibernate.Query对象的setCacheable(boolean)
+3）
+4）
+5）
+///
+配置文件
+hibernate.cfg.xml
+<?xml version=”1.0” encoding=”UTF-8”?>
+<!DOCTYPE hibernate-configuration PUBLIC
+“-//Hibernate/Hibernate Configuraiton DTD 版本号//EN”
+“http://hibernate.sourceforge.net/hibernate-configuration-版本号.dtd”>
+<hibernate-configuration>
+	<session-factory>
+		<property name=””>
+		</property>
+		<mapping resource=”” />
+	</session-factory>
+</hibernate-configuration>
+常用属性的name有
+connection.driver_class
+connection.url
+connection.username
+connection.password
+dialect
+show_sql
+format_sql
+hbm2ddl.auto
+current_session_context_class
+cache.provider.class
+///
+映射文件(Xx.hbm.xml)
+<?xml version=”1.0” encoding=”UTF-8”?>
+<!DOCTYPE hibernate-mapping PUBLIC
+“-//Hibernate/Hibernate Mapping DTD 版本号//EN”
+“http://hibernate.sourceforge.net/hibernate-mapping-版本号.dtd”>
+<hibernate-mapping>
+	<class name=”” table=””>
+		<id></id>
+		<property name=”” type=”” column=”” length=””/>
+	</class>
+</hibernate-mapping>
+///
+java_数据类型（31种）
+boolean java.lang.Boolean
+byte java.lang.Byte
+short java.lang.Short
+int java.lang.Integer
+long java.lang.Long
+float java.lang.Float
+double java.lang.Double
+char java.lang.Character
+java.lang.Class java.lang.String
+java.io.Serilizable
+java.math.BigDecimal
+byte[]
+java.util.Date  java.util.Calendar 
+java.util.Currency
+java.util.Locale java.util.TimeZone
+java.sql.Date
+java.sql.Time  java.sql.Timestamp
+java.sql.Blob  java.sql.Clob
+///
+Hibernate_数据类型（26种）
+boolean yes_no true_false
+binary byte
+integer short long
+float double big_decimal
+character string  
+class serializable
+date time timestamp
+calendar calendar_date
+blob clob text 
+locale timezone currency
+///
+Sql_数据类型（15种）
+BIT
+TINYINT SAMLLINT INTEGER BIGINT
+FLOAT DOUBLE NUMERIC
+CHAR VARCAHR
+BLOB CLOB
+DATE TIME TIMESTAMP
+///
+///
+事务
+java.sql.Connection
+1）TRANSACTION_READ_UNCOMMITTED
+可以读取未提交的数据。此级别没用。
+2）TRANSACTION_READ_COMMITTED
+不能读取没有提交的数据，可以避免脏读。
+此级别可以 避免_脏读。
+3）TRANSACTION_REPEATABLE_READ
+可以重复读（2次的查询结果是相同的）
+此级别可以 避免_脏读/不可重读取。
+4）TRANSACTION_SERIALIZABLE
+此级别避免事务的3个缺陷。
+5）事务的3个缺陷：脏读、不可重复读、幻读。
+脏读：读取了其他事务未提交的更改。
+不可重复读：2次读到的数据（已提交更改）不相同。
+幻读：2次读到的数据（未提交更改）不相同。
+6）
+///
+基本API
+1）
+2）
+3）加载对象
+/* 使用延迟加载策略，数据库没有则抛 ObjectNotFoundException */
+session.laod()
+/* 立即加载策略，数据库没有则返回null */
+session.get()
+4）
+5）
+///
+关系映射
+///
+ORM：Object Releational Mapping
+///
+单向一对一（one-to-one）
+1）2个对象之间的一对关系；
+例如：Person（人）- IdCard（身份证）
+实现策略：
+①主键关联：2个对象具有相同的主键值。
+②唯一外键关联：多对一的特殊情况。
+注意：因为一对一的主键关联映射扩展性不好，当我们的需要发生改变想要将其变为一对多的时候变无法操作了，所以我们遇到一对一关联的时候经常会采用唯一外键关联来解决问题，而很少使用一对一主键关联。
+2）多对一（many-to-one）
+在many的一端加入一个外键，指向one的一端。
+<many-to-one name=”” column=”” unique=”true” />
+3）
+4）inverse：（默认是false）//写在集合标签
+inverse=”true” 本端维护失效
+inverse=”false” 本段维护有效
+单向关联映射中，已经指定单方面维护了，无需使用inverse属性了。
+双向映射中，为了提交数据的访问效率，应该设置由多的一方维护关系。即多的一方inverse=”false”， 另外一方inverse=”true”。
+例如，多对多，只需一个方面维护即可，无需2方面同时维护。
+5）cascade：设置级联操作
+none（默认值）：只对本对象进行操作，不使用级联操作。
+save-update：只有对象保存或者是持久化对象的更新操作，才会级联操作关联对象。
+delete：对持久化对象的删除操作时会级联关联对象。
+all：对持久化对象的所有操作都会级联操作关联对象。
+6）
+7）
+8）
+9）
+///
+集合映射
+1）映射：list/set/map/array/bag/idbag
+2）list
+<list name=”” table=””>
+	<key column=”” />
+	<list-index column=””/>
+	<element type=”” column=”” />
+</list>
+3）set
+<set name=”” table=””>
+	<key column=”” />
+	<element type=”” column=”” />
+</set>
+4）map
+<map name=”” table=””>
+	<key column=”” />
+	<map-key type=”” column=”” />
+	<element type=”” column=”” />
+</map>
+5）array
+<array name=”” table=””>
+	<key column=”” />
+	<list-index column=”” />
+	<element type=”” column=”” />
+</array>
+6）bag
+<bag name=”” table=””>
+	<key column=”” not-null=”true” />
+	<element type=”” column=”” />
+</bag>
+7）
+///
+Hql
+1）简介
+Hibernate Query Language
+2）规范
+关键字用小写（例如select from...），类与属性大小写敏感，别名遵循java变量命名规范.
+3）
+别名关键字 as （可省略）
+4）表连接
+join （inner join）
+left join （left outer join）
+right join （right outer join）
+full join （full outer join）
+5）抓取
+/**/
+left join fetch
+注意：没有right/full join fetch.
+6）
+7）
+///
+函数
+1）
+2）
+3）统计函数
+avg()
+sum()
+min()
+max()
+count(*) 
+count(...)
+count(all ...) 
+count(distinct ...)
+4）
+5）
