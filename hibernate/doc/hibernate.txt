@@ -15,6 +15,19 @@ hibernate.dialect = org.hibernate.dialect.PostgreSQL82Dialect
 
 
 
+Hibernate分表
+1) 写一个拦截器继承 EmptyInterceptor，在onPrepareStatement方法中进行sql替换
+2) 
+// 设置替换之后的表名
+SqlInterceptor sqlInterceptor = new SqlInterceptor("T_MEMBER_DEVELOP_LOG_05");
+// 设置前缀
+sqlInterceptor.setPrefix("T_MEMBER_DEVELOP_LOG_");
+// 使用拦截器
+Session session = mySqlSessionFactory.withOptions().interceptor(sqlInterceptor).openSession();
+Query query = session.createQuery("from TMemberDevelopLogEntity2");
+
+
+
 
 
 
